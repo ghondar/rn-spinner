@@ -1,3 +1,4 @@
+/* eslint-disable */
 var React = require('react')
 var ReactNative = require('react-native')
 var styles = require('./style')
@@ -6,7 +7,8 @@ var { PropTypes } = React
 var {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
 } = ReactNative
 
 var Spinner = React.createClass({
@@ -64,7 +66,7 @@ var Spinner = React.createClass({
         max: nextProps.max
       })
     }
-    if (nextProps.value) {
+    if (nextProps.value || nextProps.value === 0) {
       this.setState({
         num: nextProps.value
       })
@@ -92,12 +94,26 @@ var Spinner = React.createClass({
 
   _decrease () {
     if (this.props.disabled) return
-
     if (this.state.min < this.state.num) {
       var num = this.state.num - 1
       if (typeof this.props.value === 'undefined') {
         this.setState({
           num: num
+        })
+      }
+
+      this._onNumChange(num)
+    }
+  },
+
+  _exactNumber (num) {
+    if(num == '')
+      num = 0
+    if (this.props.disabled) return
+    if (this.state.min <= parseInt(num) && this.state.max >= parseInt(num)) {
+      if (typeof this.props.value === 'undefined') {
+        this.setState({
+          num: parseInt(num)
         })
       }
 
@@ -122,7 +138,13 @@ var Spinner = React.createClass({
         <View style={[styles.num,
             { borderColor: this.props.showBorder ? this.props.color : 'transparent', backgroundColor: this.props.numBgColor, height: this.props.height
             }]}>
-          <Text style={[styles.numText, {color: this.props.numColor, fontSize: this.props.fontSize}]}>{this.state.num}</Text>
+          {/* <Text style={[styles.numText, {color: this.props.numColor, fontSize: this.props.fontSize}]}>{this.state.num}</Text> */}
+          <TextInput
+            style={[styles.numText, {color: this.props.numColor, fontSize: this.props.fontSize, paddingBottom: 6}]}
+            underlineColorAndroid='transparent'
+            value={this.state.num.toString()}
+            onChangeText={this._exactNumber}
+            keyboardType='numeric'/>
         </View>
         <TouchableOpacity
           style={[styles.btn,
