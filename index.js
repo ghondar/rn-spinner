@@ -23,6 +23,7 @@ var Spinner = React.createClass({
     showBorder: PropTypes.bool,
     fontSize: PropTypes.number,
     btnFontSize: PropTypes.number,
+    btnStyle: PropTypes.object,
     buttonTextColor: PropTypes.string,
     disabled: PropTypes.bool,
     width: PropTypes.number,
@@ -40,6 +41,7 @@ var Spinner = React.createClass({
       showBorder: true,
       fontSize: 14,
       btnFontSize: 14,
+      btnStyle: {},
       buttonTextColor: 'white',
       disabled: false,
       width: 90,
@@ -68,7 +70,7 @@ var Spinner = React.createClass({
     }
     if (nextProps.value || nextProps.value === 0) {
       this.setState({
-        num: nextProps.value
+        num: parseInt(nextProps.value)
       })
     }
   },
@@ -128,6 +130,7 @@ var Spinner = React.createClass({
         { width: this.props.width } ]}>
         <TouchableOpacity
           style={[styles.btn,
+            this.props.btnStyle,
             { backgroundColor: this.props.color },
             { borderColor: this.props.showBorder ? this.props.color : 'transparent' },
             { height: this.props.height } ]}
@@ -148,6 +151,7 @@ var Spinner = React.createClass({
         </View>
         <TouchableOpacity
           style={[styles.btn,
+            this.props.btnStyle,
             { backgroundColor: this.props.color },
             { borderColor: this.props.showBorder ? this.props.color : 'transparent' },
             { height: this.props.height }]}
