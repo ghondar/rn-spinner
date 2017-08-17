@@ -111,15 +111,16 @@ var Spinner = React.createClass({
   _exactNumber (num) {
     if(num == '')
       num = 0
+    const parsedNum = parseInt(num)
     if (this.props.disabled) return
-    if (this.state.min <= parseInt(num) && this.state.max >= parseInt(num)) {
+    if (this.state.min <= parsedNum && this.state.max >= parsedNum) {
       if (typeof this.props.value === 'undefined') {
         this.setState({
-          num: parseInt(num)
+          num: parsedNum
         })
       }
 
-      this._onNumChange(num)
+      this._onNumChange(parsedNum)
     }
   },
 
